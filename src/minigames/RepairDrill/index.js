@@ -68,9 +68,6 @@ const RepairText = styled.div`
   font-size: 36px;
   color: rgba(255,255,255,0.7);
   margin-top: 6px;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
 `
 
 const ResetButton = styled.button`

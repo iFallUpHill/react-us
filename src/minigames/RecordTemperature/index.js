@@ -36,6 +36,9 @@ const Temperature = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 `
 
 const TemperatureButton = styled.button`
@@ -85,12 +88,14 @@ const ScoreCounter = styled.div`
 
 const RecordTemperature = () => {
   const firstTemp = randomNumInRange(250, 350)
+  const firstTarget = Math.random() > 0.5 ? firstTemp + randomNumInRange(1,50) : firstTemp - (randomNumInRange(1, 50));
+  const [logValue, setLogValue] = useState(firstTemp);
+  const [targetValue, setTargetValue] = useState(firstTarget);
+  const [deltaIsPositive, setDeltaIsPositive] = useState((firstTarget - firstTemp) > 0)
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [lapse, setLapse] = useState(0);
   const [highscore, setHighscore] = useState(0);
-  const [logValue, setLogValue] = useState(firstTemp);
-  const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const [targetValue, setTargetValue] = useState(Math.random() > 0.5 ? firstTemp + randomNumInRange(1,50) : firstTemp - (randomNumInRange(1, 50)));
 
   const scoreRef = useRef(null);
   const incrementRef = useRef(null);
@@ -129,7 +134,7 @@ const RecordTemperature = () => {
   }
 
   useEffect(() => {
-    if (logValue === targetValue) {
+    if (logValue === targetValue || ( (deltaIsPositive && (logValue > targetValue)) || (!deltaIsPositive && (logValue < targetValue) ))) {
       setButtonsDisabled(true);
       clearInterval(scoreRef.current);
       clearInterval(incrementRef.current);
@@ -147,10 +152,12 @@ const RecordTemperature = () => {
 
   function resetGame(e){
     e.preventDefault();
-    const newTemperatureTarget = randomNumInRange(250,350);
-    setLogValue(newTemperatureTarget)
-    setTargetValue(Math.random() > 0.5 ? newTemperatureTarget + randomNumInRange(1,50) : newTemperatureTarget - randomNumInRange(1,50));
-    
+
+    const newFirstTemp = randomNumInRange(250, 350)
+    const newTargetTemp = Math.random() > 0.5 ? newFirstTemp + randomNumInRange(1,50) : newFirstTemp - (randomNumInRange(1, 50));
+    setLogValue(newFirstTemp)
+    setTargetValue(newTargetTemp);
+    setDeltaIsPositive((newTargetTemp - newFirstTemp) > 0);
 
     clearInterval(scoreRef.current);
     clearInterval(incrementRef.current);
