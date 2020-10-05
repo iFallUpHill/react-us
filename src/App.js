@@ -2,6 +2,7 @@ import React from 'react';
 import UnlockManifolds from './minigames/UnlockManifolds';
 import RecordTemperature from './minigames/RecordTemperature';
 import RepairDrill from './minigames/RepairDrill';
+import SwipeCard from './minigames/SwipeCard';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <UnlockManifolds />
       <RecordTemperature />
       <RepairDrill />
+      <SwipeCard />
     </div>
   );
 }
