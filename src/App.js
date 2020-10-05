@@ -1,24 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import UnlockManifolds from './minigames/UnlockManifolds';
+import RecordTemperature from './minigames/RecordTemperature';
+import RepairDrill from './minigames/RepairDrill';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>React Us (Among Us but React)</h1>
+      <UnlockManifolds />
+      <RecordTemperature />
+      <RepairDrill />
     </div>
   );
 }
