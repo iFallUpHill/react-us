@@ -1,8 +1,8 @@
 import React from 'react';
-import UnlockManifolds from './minigames/UnlockManifolds';
-import RecordTemperature from './minigames/RecordTemperature';
-import RepairDrill from './minigames/RepairDrill';
-import SwipeCard from './minigames/SwipeCard';
+import UnlockManifolds from './tasks/UnlockManifolds';
+import RecordTemperature from './tasks/RecordTemperature';
+import RepairDrill from './tasks/RepairDrill';
+import SwipeCard from './tasks/SwipeCard';
 
 function App() {
   return (

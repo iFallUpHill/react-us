@@ -126,7 +126,7 @@ const RecordTemperature = () => {
     startTimer();
     incrementRef.current = setInterval(() => {
       setLogValue(prevLogValue => prevLogValue + changeValue);
-    }, 200)
+    }, 100)
   }
 
   function stopLogValueChange() {
