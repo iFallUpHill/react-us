@@ -7,7 +7,7 @@ import SwipeCard from './tasks/SwipeCard';
 function App() {
   return (
     <div>
-      <h1>React Us (Among Us but React)</h1>
+      <h1>React Us (Among Us tasks but in React)</h1>
       <UnlockManifolds />
       <RecordTemperature />
       <RepairDrill />

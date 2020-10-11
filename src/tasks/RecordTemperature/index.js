@@ -176,9 +176,13 @@ const RecordTemperature = () => {
       <GameBoard>
         <GameColumn color="#3DAF53">
           <ColumnHeading>Log</ColumnHeading>
-          <TemperatureButton position="upper" disabled={buttonsDisabled} onClick={() => onLogValueClick(1)} onMouseDown={() => startLogValueChange(1)} onMouseUp={stopLogValueChange}>△</TemperatureButton>
+          <TemperatureButton position="upper" disabled={buttonsDisabled} onClick={() => onLogValueClick(1)} onMouseDown={() => startLogValueChange(1)} onMouseUp={stopLogValueChange}>
+            <span role="img" aria-label="up">△</span>
+          </TemperatureButton>
           <Temperature>{logValue}</Temperature>
-          <TemperatureButton position="lower" disabled={buttonsDisabled} onClick={() => onLogValueClick(-1)} onMouseDown={() => startLogValueChange(-1)} onMouseUp={stopLogValueChange}>▽</TemperatureButton>
+          <TemperatureButton position="lower" disabled={buttonsDisabled} onClick={() => onLogValueClick(-1)} onMouseDown={() => startLogValueChange(-1)} onMouseUp={stopLogValueChange}>
+            <span role="img" aria-label="down">▽</span>
+          </TemperatureButton>
         </GameColumn>
         <GameColumn color="#742234">
           <ColumnHeading>Reading</ColumnHeading>

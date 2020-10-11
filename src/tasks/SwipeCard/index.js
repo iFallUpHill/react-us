@@ -24,6 +24,28 @@ const ReaderArea = styled.div`
   position: absolute;
   z-index: 9999;
   background: #1B191B;
+  display: flex;
+  align-items: center;
+`
+
+const ReaderMessage = styled.div`
+  color: #fff;
+  margin: 16px;
+  font-size: 24px;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  background: #144C39;
+  width: 100%;
+  padding: 6px 12px;
+  box-sizing: border-box;
+  border: 3px #0B0A0A solid;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+`
+
+const CurrentSwipeTime = styled.span`
+  color: ${props => (props.lapse >= 650 && props.lapse <= 750) ? "green" : "red"};
 `
 
 const variants = {
@@ -39,14 +61,30 @@ const variants = {
 
 const SwipeCard = () => {
   const [isSwiped, setIsSwiped] = useState(false);
+  const [swipeTime, setSwipeTime] = useState(0);
+  const [readerMessage, setReaderMessage] = useState("Please swipe card.");
+  const [lapse, setLapse] = useState(0);
   const constraintsRef = useRef(null);
   const x = useMotionValue(0)
+
+  const swipeTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      clearInterval(swipeTimerRef.current);
+    }
+  }, [])
 
   return(
     <div>
       <h1>Swipe Card</h1>
+      <strong>Current Time:</strong> <CurrentSwipeTime lapse={lapse}>{lapse}ms</CurrentSwipeTime> || <strong>Last Successful Swipe:</strong> {swipeTime}ms
       <SwipeArea ref={constraintsRef}>
-        <ReaderArea/>
+        <ReaderArea>
+          <ReaderMessage>
+            {readerMessage}
+          </ReaderMessage>
+        </ReaderArea>
         <Card 
           drag="x" 
           dragElastic={0.3} 
@@ -59,22 +97,42 @@ const SwipeCard = () => {
               if (info.offset.x >= 700) {
                 x.set(700);
               } 
-              if (info.offset.x >= 1000) {
-                console.log('Swiped too far')
-              }
+            }
+          }
+          onDragStart={
+            () => {
+              const startTime = Date.now() - lapse;
+              swipeTimerRef.current = setInterval(() => {
+                setLapse(Date.now() - startTime);
+              }, 0)
             }
           }
           onDragEnd={
             (event, info) => {
-              if (info.offset.x >= 700 && info.offset.x <= 1000) {
-                setIsSwiped(true)
+              clearInterval(swipeTimerRef.current);
+              if (lapse < 650) {
+                setReaderMessage("Too fast. Try again.");
+                setIsSwiped(true);
+                setIsSwiped(false);
+              } else if (lapse > 750) {
+                setReaderMessage("Too slow. Try again.");
+                setIsSwiped(true);
+                setIsSwiped(false);
+              } else if (info.offset.x < 700 || info.offset.x > 900) {
+                setReaderMessage("Bad read. Try again.");
+                setIsSwiped(true);
+                setIsSwiped(false);
               } else {
-                setIsSwiped(true)
-                setIsSwiped(false)
+                setReaderMessage("Accepted. Thank you.");
+                setIsSwiped(true);
+                setSwipeTime(lapse);
               }
+
               setTimeout(() => {
-                setIsSwiped(false)
-              }, 300)
+                setReaderMessage("Please swipe card.");
+                setIsSwiped(false);
+                setLapse(0);
+              }, 500)
             }
           }/>
       </SwipeArea>

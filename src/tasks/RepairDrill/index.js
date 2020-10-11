@@ -69,6 +69,16 @@ const RepairText = styled.div`
   color: rgba(255,255,255,0.7);
   margin-top: 6px;
 `
+const StatusContainer = styled.div`
+  width: 350px;
+  margin-top: -12px;
+  font-size: 24px;
+  text-align: center;
+`
+
+const Status = styled.span`
+  color: ${props => props.status === "BAD" ? "red" : "green"};
+`
 
 const ResetButton = styled.button`
   padding: 0.5em 1em;
@@ -87,6 +97,7 @@ const RepairDrill = () => {
   const startingCorners = [randomNumInRange(3,4),randomNumInRange(3,4),randomNumInRange(3,4), randomNumInRange(3,4)];
   const [corners, setCorners] = useState(startingCorners);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [status, setStatus] = useState("BAD");
   const [lapse, setLapse] = useState(0);
   const [highscore, setHighscore] = useState(0);
 
@@ -101,6 +112,7 @@ const RepairDrill = () => {
     if(corners.reduce(reducer) === 0) {
       clearInterval(scoreRef.current);
       setTimerRunning(false);
+      setStatus("FINE");
       scoreRun(lapse);
     }
     return;
@@ -132,9 +144,9 @@ const RepairDrill = () => {
     setCorners([randomNumInRange(3,4),randomNumInRange(3,4),randomNumInRange(3,4), randomNumInRange(3,4)]);
     clearInterval(scoreRef.current);
     setLapse(0);
+    setStatus("BAD");
     setTimerRunning(false);
   }
-
 
   return(
     <div>
@@ -148,12 +160,15 @@ const RepairDrill = () => {
           <RepairContainer key={idx} corner={idx}>
             <RepairTarget value={value} onClick={() => onTargetClick(idx)}>
               <RepairText>
-                ❗
+                <span role="img" aria-label="Warning Marker">❗</span>
               </RepairText>
             </RepairTarget>
           </RepairContainer>
         )}
       </ShipBackground>
+      <StatusContainer>
+        Status: <Status status={status}>{status}</Status>
+      </StatusContainer>
     </div>
   )
 }
