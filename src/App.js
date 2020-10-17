@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 import UnlockManifolds from './tasks/UnlockManifolds';
 import RecordTemperature from './tasks/RecordTemperature';
 import RepairDrill from './tasks/RepairDrill';
