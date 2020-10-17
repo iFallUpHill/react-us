@@ -7,6 +7,7 @@
 * Repair Card
 * Swipe Card
 
+## Preview
 ![Swipe Card Preview](./swipe-card-preview.png)
 
 ## Development
