@@ -1,3 +1,21 @@
-Among Us tasks in React
+# Among Us tasks recreated in React
 
-`yarn start`
+## Available Tasks
+
+* Unlock Manifolds
+* Record Temperature
+* Repair Card
+* Swipe Card
+
+
+## Development
+
+Install dependencies.
+```sh
+yarn
+```
+
+Start the app.
+```sh
+yarn start
+```

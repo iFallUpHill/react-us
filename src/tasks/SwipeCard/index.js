@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { motion, useMotionValue } from "framer-motion"
+import { motion, useMotionValue } from 'framer-motion';
+
+import TaskName from '../../components/TaskName';
+import ScoreCounter from '../../components/ScoreCounter';
 
 const Card = styled(motion.div)`
   height: 150px;
@@ -32,7 +35,6 @@ const ReaderMessage = styled.div`
   color: #fff;
   margin: 16px;
   font-size: 24px;
-  font-family: sans-serif;
   text-transform: uppercase;
   background: #144C39;
   width: 100%;
@@ -62,6 +64,8 @@ const variants = {
 const SwipeCard = () => {
   const [isSwiped, setIsSwiped] = useState(false);
   const [swipeTime, setSwipeTime] = useState(0);
+  const [successfulSwipes, setSuccessfulSwipes] = useState(0);
+  const [totalSwipes, setTotalSwipes] = useState(0);
   const [readerMessage, setReaderMessage] = useState("Please swipe card.");
   const [lapse, setLapse] = useState(0);
   const constraintsRef = useRef(null);
@@ -77,8 +81,10 @@ const SwipeCard = () => {
 
   return(
     <div>
-      <h1>Swipe Card</h1>
-      <strong>Current Time:</strong> <CurrentSwipeTime lapse={lapse}>{lapse}ms</CurrentSwipeTime> || <strong>Last Successful Swipe:</strong> {swipeTime}ms
+      <TaskName>Swipe Card</TaskName>
+      <ScoreCounter>
+        <strong>Current Time:</strong> <CurrentSwipeTime lapse={lapse}>{lapse}ms</CurrentSwipeTime> || <strong>Last Successful Swipe:</strong> {swipeTime}ms || <strong>Successful Swipes:</strong> {successfulSwipes}/{totalSwipes} ({totalSwipes > 0 ? Math.round(successfulSwipes * 100/totalSwipes) : 0}%)
+      </ScoreCounter>
       <SwipeArea ref={constraintsRef}>
         <ReaderArea>
           <ReaderMessage>
@@ -110,28 +116,30 @@ const SwipeCard = () => {
           onDragEnd={
             (event, info) => {
               clearInterval(swipeTimerRef.current);
+              setIsSwiped(true);
+
               if (lapse < 650) {
                 setReaderMessage("Too fast. Try again.");
-                setIsSwiped(true);
                 setIsSwiped(false);
               } else if (lapse > 750) {
                 setReaderMessage("Too slow. Try again.");
-                setIsSwiped(true);
                 setIsSwiped(false);
               } else if (info.offset.x < 700 || info.offset.x > 900) {
                 setReaderMessage("Bad read. Try again.");
-                setIsSwiped(true);
                 setIsSwiped(false);
               } else {
                 setReaderMessage("Accepted. Thank you.");
-                setIsSwiped(true);
+                setSuccessfulSwipes(successfulSwipes + 1);
                 setSwipeTime(lapse);
+                setTimeout(() => {
+                  setIsSwiped(false);
+                }, 500)
               }
+              setLapse(0);
+              setTotalSwipes(totalSwipes + 1);
 
               setTimeout(() => {
                 setReaderMessage("Please swipe card.");
-                setIsSwiped(false);
-                setLapse(0);
               }, 500)
             }
           }/>

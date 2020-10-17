@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { shuffleArray } from '../../utils/shuffle';
 
+import TaskName from '../../components/TaskName';
+import ResetButton from '../../components/ResetButton';
+import ScoreCounter from '../../components/ScoreCounter';
+import Runtime from '../../components/Runtime';
+
 const GameContainer = styled.div`
 `
 
@@ -38,19 +43,6 @@ const GameNumber = styled.div`
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
-`
-
-const ResetButton = styled.button`
-  padding: 0.5em 1em;
-  margin-bottom: 1em;
-`
-
-const Runtime = styled.span`
-  color: ${props => props.pace ? "green" : "red"};
-`
-
-const ScoreCounter = styled.div`
-
 `
 
 const UnlockManifolds = () => {
@@ -112,7 +104,7 @@ const UnlockManifolds = () => {
 
   return(
     <GameContainer>
-      <h1>Unlock Manifolds</h1>
+      <TaskName>Unlock Manifolds</TaskName>
       <ResetButton onClick={resetGame}>Reset Game</ResetButton>
       <ScoreCounter>
         <strong>Current Time:</strong> <Runtime pace={lapse <= highscore}>{lapse}ms</Runtime> || <strong>Fastest Time:</strong> {highscore}ms

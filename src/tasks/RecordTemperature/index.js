@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { randomNumInRange } from '../../utils/randomRange';
 
+import TaskName from '../../components/TaskName';
+import ResetButton from '../../components/ResetButton';
+import ScoreCounter from '../../components/ScoreCounter';
+import Runtime from '../../components/Runtime';
+
 const GameBoard = styled.div`
   width: 600px;
   display: flex;
@@ -71,19 +76,6 @@ const TemperatureButton = styled.button`
 
       `
   }
-`
-
-const ResetButton = styled.button`
-  padding: 0.5em 1em;
-  margin-bottom: 1em;
-`
-
-const Runtime = styled.span`
-  color: ${props => props.pace ? "green" : "red"};
-`
-
-const ScoreCounter = styled.div`
-
 `
 
 const RecordTemperature = () => {
@@ -168,7 +160,7 @@ const RecordTemperature = () => {
 
   return(
     <div>
-      <h1>Record Temperature</h1>
+      <TaskName>Record Temperature</TaskName>
       <ResetButton onClick={resetGame}>Reset Game</ResetButton>
       <ScoreCounter>
         <strong>Current Time:</strong> <Runtime pace={lapse <= highscore}>{lapse}ms</Runtime> || <strong>Fastest Time:</strong> {highscore}ms
