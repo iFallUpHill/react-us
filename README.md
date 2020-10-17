@@ -7,15 +7,18 @@
 * Repair Card
 * Swipe Card
 
+![Swipe Card Preview](./swipe-card-preview.png)
 
 ## Development
 
 Install dependencies.
+
 ```sh
 yarn
 ```
 
 Start the app.
+
 ```sh
 yarn start
 ```
